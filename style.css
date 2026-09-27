@@ -1,0 +1,45 @@
+body{
+background: black;
+height:100vh;
+margin: 0px;
+overflow: hidden;
+
+}
+
+#mapa{
+position: absolute;
+width:35vh;
+height:20vh;
+background: rgb(37, 111, 195);
+background-image: url("mapa.png");
+background-position: center;
+background-size: 500px 500px;
+
+top:auto;bottom:0px;left:0px;right:0px;
+border: 10px solid rgb(37, 111, 195);
+overflow: hidden;
+}
+
+#jugadormap{
+position: absolute;
+width: 24px;
+height: 34px;
+
+background-image: url("jugador3.png");
+background-position: center;
+background-size: 24px 34px;
+top: 50%;left: 50%; 
+}
+
+#jugador{
+position: absolute;
+width: 197px;
+left: 50%;
+top: 30%;
+background: blue;
+background-image: url("cj.png");
+background-position: center;
+background-size:  cover;
+height: 516px;
+
+}

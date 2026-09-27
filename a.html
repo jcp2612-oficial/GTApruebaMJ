@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explicación Interactiva de scale3d()</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 { margin-bottom: 5px; }
+        p { color: #ccc; max-width: 600px; text-align: center; }
+
+        /* Espacio tridimensional */
+        .escena {
+            width: 300px;
+            height: 300px;
+            margin: 40px auto;
+            /* La perspectiva permite ver la profundidad del eje Z */
+            perspective: 600px;
+            border: 2px dashed #444;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Objeto 3D (Cubo) */
+        .cubo {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            transform-style: preserve-3d;
+            /* Rotamos el cubo para notar la profundidad del eje Z */
+            transform: rotateX(-20deg) rotateY(30deg) scale3d(1, 1, 1);
+            transition: transform 0.1s ease-out;
+        }
+
+        /* Caras del cubo */
+        .cara {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border: 2px solid #fff;
+            opacity: 0.85;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .frente  { background: #e74c3c; transform: translateZ(50px); }
+        .atras   { background: #3498db; transform: rotateY(180deg) translateZ(50px); }
+        .derecha { background: #2ecc71; transform: rotateY(90deg) translateZ(50px); }
+        .izquierda{ background: #f1c40f; transform: rotateY(-90deg) translateZ(50px); }
+        .arriba  { background: #9b59b6; transform: rotateX(90deg) translateZ(50px); }
+        .abajo   { background: #e67e22; transform: rotateX(-90deg) translateZ(50px); }
+
+        /* Panel de controles */
+        .controles {
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .control-grupo {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        label { font-size: 14px; }
+        input[type="range"] { width: 180px; }
+        
+        .codigo-box {
+            background: #000;
+            padding: 12px;
+            border-radius: 5px;
+            color: #00ffcc;
+            font-family: monospace;
+            text-align: center;
+            font-size: 16px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>¿Cómo funciona scale3d()?</h1>
+    <p>Usa los deslizadores para cambiar cada eje independientemente. Fíjate cómo el eje Z estira el objeto hacia adelante y hacia atrás en profundidad.</p>
+
+    <div class="escena">
+        <div class="cubo" id="cubo">
+            <div class="cara frente">Frente</div>
+            <div class="cara atras">Atrás</div>
+            <div class="cara derecha">Der</div>
+            <div class="cara izquierda">Izq</div>
+            <div class="cara arriba">Arriba</div>
+            <div class="cara abajo">Abajo</div>
+        </div>
+    </div>
+
+    <div class="controles">
+        <div class="control-grupo">
+            <label>Eje X (Ancho): <span id="valX">1</span></label>
+            <input type="range" id="scaleX" min="0.2" max="2.5" step="0.1" value="1">
+        </div>
+        <div class="control-grupo">
+            <label>Eje Y (Alto): <span id="valY">1</span></label>
+            <input type="range" id="scaleY" min="0.2" max="2.5" step="0.1" value="1">
+        </div>
+        <div class="control-grupo">
+            <label>Eje Z (Profundidad): <span id="valZ">1</span></label>
+            <input type="range" id="scaleZ" min="0.2" max="2.5" step="0.1" value="1">
+        </div>
+
+        <div class="codigo-box" id="codigo">
+            transform: scale3d(1, 1, 1);
+        </div>
+    </div>
+
+    <script>
+        const cubo = document.getElementById('cubo');
+        const inputX = document.getElementById('scaleX');
+        const inputY = document.getElementById('scaleY');
+        const inputZ = document.getElementById('scaleZ');
+
+        const valX = document.getElementById('valX');
+        const valY = document.getElementById('valY');
+        const valZ = document.getElementById('valZ');
+        const codigo = document.getElementById('codigo');
+
+        function actualizarTransformacion() {
+            const x = inputX.value;
+            const y = inputY.value;
+            const z = inputZ.value;
+
+            valX.textContent = x;
+            valY.textContent = y;
+            valZ.textContent = z;
+
+            // Mantenemos la rotación fija para apreciar el efecto en 3D
+            cubo.style.transform = `rotateX(-20deg) rotateY(30deg) scale3d(${x}, ${y}, ${z})`;
+            codigo.textContent = `transform: scale3d(${x}, ${y}, ${z});`;
+        }
+
+        inputX.addEventListener('input', actualizarTransformacion);
+        inputY.addEventListener('input', actualizarTransformacion);
+        inputZ.addEventListener('input', actualizarTransformacion);
+    </script>
+</body>
+</html>
